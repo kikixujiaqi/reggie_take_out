@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.time.LocalDateTime;
+
+import static com.itheima.reggie.common.Constants.DEFAULT_PWD;
+
 
 @Slf4j
 @RestController
@@ -47,5 +51,19 @@ public class EmployeeController {
     public R<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("employee");
         return R.success("退出成功");
+    }
+
+    @PostMapping
+    public R<String> add(HttpServletRequest request, @RequestBody Employee employee) {
+        employee.setPassword(DigestUtils.md5DigestAsHex(DEFAULT_PWD.getBytes()));
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        Long empId = (Long) request.getSession().getAttribute("employee");
+        employee.setCreateUser(empId);
+        employee.setUpdateUser(empId);
+
+        employeeService.save(employee);
+        return R.success("新增员工成功~");
     }
 }
