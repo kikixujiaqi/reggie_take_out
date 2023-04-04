@@ -10,6 +10,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Slf4j
@@ -36,6 +37,13 @@ public class EmployeeController {
         if (emp.getStatus() == 0) {
             return R.error("该账号已被禁用");
         }
+        request.getSession().setAttribute("employee", emp.getId());
         return R.success(emp);
+    }
+
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("employee");
+        return R.success("退出成功");
     }
 }
