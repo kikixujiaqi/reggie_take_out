@@ -27,8 +27,8 @@ public class CommonController {
 
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file) {
-        String originFileName = file.getName();
-        String suffix = originFileName.substring(originFileName.lastIndexOf("."));
+        String originalFileName = file.getOriginalFilename();
+        String suffix = originalFileName.substring(originalFileName.lastIndexOf("."));
         String fileName = UUID.randomUUID().toString() + suffix;
 
         File dir = new File(basePath);

@@ -19,5 +19,5 @@ mybatis-plus:
       id-type: assign_id
 
 reggie:
-  path: D:\img\
+  path: D:\images\
 
